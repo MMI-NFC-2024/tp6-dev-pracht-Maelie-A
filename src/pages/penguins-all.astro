@@ -1,0 +1,27 @@
+---
+import Layout from "../layouts/Layout.astro";
+import PlotFigure from "../components/PlotFigure.astro";
+import * as Plot from "@observablehq/plot";
+import penguinsRaw from "../assets/penguins.json";
+
+const data = tidy(penguinsRaw);
+const species = [...new Set(data.map(d => d.species))];
+
+const charts = species.map(s => {
+  const rows = data.filter(d => d.species === s);
+  return { s, options: makeOptions(rows, `${s} — Scatterplot`) };
+});
+---
+
+<Layout title="TP6 — Penguins (toutes les espèces)">
+  <nav class="mb-4 flex gap-2 text-sm">
+    {species.map(s => <a href={`#${s}`} class="px-3 py-1 rounded border">{s}</a>)}
+  </nav>
+
+  {charts.map(({s, options}) => (
+    <section id={s} class="mb-10">
+      <h2 class="text-xl font-semibold mb-2">{s}</h2>
+      <PlotFigure options={options} />
+    </section>
+  ))}
+</Layout>
