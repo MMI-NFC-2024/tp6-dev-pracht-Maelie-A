@@ -1,0 +1,19 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import penguinsRaw from "../../assets/penguins.json";
+
+const data = tidy(penguinsRaw);
+const species = [...new Set(data.map(d => d.species))];
+---
+
+<Layout title="TP6 — Rendu dynamique : index">
+  <h2 class="text-xl font-semibold mb-3">Espèces</h2>
+  <ul class="grid gap-2">
+    {species.map(s => (
+      <li>
+        <a class="px-3 py-1 rounded border inline-block"
+           href={`/rendu-dynamique/${encodeURIComponent(s)}`}>{s}</a>
+      </li>
+    ))}
+  </ul>
+</Layout>
