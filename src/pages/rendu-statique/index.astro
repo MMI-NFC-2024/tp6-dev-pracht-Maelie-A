@@ -1,0 +1,16 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import penguinsRaw from "../../assets/penguins.json";
+
+const species = [...new Set(penguinsRaw.map(d => d.species))];
+---
+
+<Layout title="TP6 — Rendu statique : index">
+  <h2 class="text-xl font-semibold mb-3">Espèces (pages pré-rendues)</h2>
+  <ul class="grid gap-2">
+    {species.map(s => (
+      <li><a class="px-3 py-1 rounded border inline-block"
+             href={`/rendu-statique/${encodeURIComponent(s)}`}>{s}</a></li>
+    ))}
+  </ul>
+</Layout>
