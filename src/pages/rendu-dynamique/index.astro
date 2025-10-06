@@ -2,6 +2,9 @@
 import Layout from "../../layouts/Layout.astro";
 import penguinsRaw from "../../assets/penguins.json";
 
+// Define a simple tidy function or import it if available
+const tidy = (data) => data; // Replace with actual tidy logic if needed
+
 const data = tidy(penguinsRaw);
 const species = [...new Set(data.map(d => d.species))];
 ---

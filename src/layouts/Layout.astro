@@ -1,26 +1,153 @@
 ---
 import "../styles/global.css";
+const { title = "TP6 – Observable Plot + Astro" } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="fr">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{title}</title>
     <meta name="generator" content={Astro.generator} />
-    <title>Astro Basics</title>
+    <style>
+      :root{
+        --bg1:#fff0f6; /* rose très pâle */
+        --bg2:#eef2ff; /* lilas très pâle */
+        --ink:#3b2a35; /* texte principal */
+        --muted:#6b5563;
+        --card:#ffffffee;
+        --border:#f4c9da;
+        --pill1:#ffb3c7; /* rose bonbon */
+        --pill2:#d6c7ff; /* lavande */
+        --pill3:#b3f0e6; /* menthe */
+        --accent:#ff66a3; /* rose flashy */
+        --shadow: 0 10px 30px rgba(255, 102, 163, .15);
+      }
+
+      html,body{ height:100%; }
+      body{
+        margin:0;
+        font-family: ui-sans-serif, system-ui, Segoe UI, Roboto, Helvetica, Arial, Apple Color Emoji, Segoe UI Emoji;
+        color:var(--ink);
+        background:
+          radial-gradient(1200px 800px at 20% -10%, var(--bg2) 0%, transparent 60%),
+          radial-gradient(1400px 900px at 120% 20%, var(--bg1) 0%, transparent 60%),
+          linear-gradient(180deg, #fff 0%, #fff 100%);
+        background-color:#fff;
+      }
+
+      /* Header glass */
+      header{
+        position:sticky; top:0; z-index:10;
+        backdrop-filter: saturate(140%) blur(10px);
+        background: color-mix(in oklab, #ffffff 80%, var(--bg1));
+        border-bottom:1px solid var(--border);
+      }
+
+      /* Container */
+      .container{ max-width:1100px; margin:auto; padding:0.9rem 1rem; display:flex; align-items:center; gap:1rem; }
+      .brand{
+        font-weight:700; letter-spacing:.2px; text-decoration:none; color:var(--ink);
+      }
+
+      /* Pills nav */
+      nav{
+        display:flex; gap:.6rem; flex-wrap:wrap; align-items:center; margin-left:auto;
+      }
+      nav a{
+        --g: linear-gradient(90deg, var(--pill1), var(--pill2), var(--pill3));
+        padding:.55rem .85rem;
+        border-radius:999px;
+        text-decoration:none;
+        color:#35252d;
+        background: var(--g) border-box;
+        border:1px solid transparent;
+        box-shadow: 0 2px 10px rgba(0,0,0,.04);
+        position:relative;
+        transition: transform .15s ease, box-shadow .15s ease;
+        font-weight:600;
+        font-size:.95rem;
+      }
+      nav a:hover{
+        transform: translateY(-2px);
+        box-shadow: var(--shadow);
+      }
+      nav a:focus-visible{
+        outline: 2px solid var(--accent);
+        outline-offset: 2px;
+      }
+
+      /* Main zone */
+      main{
+        max-width:1100px; margin:2rem auto; padding:0 1rem 3rem;
+      }
+      .card{
+        background: var(--card);
+        border:1px solid var(--border);
+        border-radius: 20px;
+        padding: 1.2rem;
+        box-shadow: 0 6px 24px rgba(214, 199, 255, .15);
+      }
+
+      /* Tiny heading accent underline */
+      h1{
+        margin:0 0 .75rem 0;
+        letter-spacing:.2px;
+      }
+      .accent{
+        display:inline-block;
+        position:relative;
+      }
+      .accent::after{
+        content:"";
+        position:absolute; left:0; bottom:-4px;
+        width:100%; height:6px;
+        background: linear-gradient(90deg, var(--pill1), var(--pill2));
+        border-radius:6px;
+        opacity:.6;
+      }
+
+      /* Plot container (jolis bords) */
+      .plot-wrap{
+        margin-top:1rem;
+        background:#fff;
+        border:1px dashed #f2d5e2;
+        border-radius:18px;
+        padding:.8rem;
+      }
+
+      /* Footer */
+      footer{
+        max-width:1100px; margin:0 auto 2rem; padding:0 1rem; color:var(--muted);
+        font-size:.85rem;
+      }
+    </style>
   </head>
   <body>
-    <slot />
+    <header>
+      <div class="container">
+        <a href="/" class="brand">TP6 · Observable Plot + Astro</a>
+        <nav>
+          <a href="/penguins-all">Toutes les espèces</a>
+          <a href="/rendu-dynamique">Dynamique</a>
+          <a href="/rendu-statique">Statique</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <div class="card">
+        <h1 class="accent">{title}</h1>
+      </div>
+
+      <div class="plot-wrap">
+        <slot />
+      </div>
+    </main>
+
+    <footer>
+      @BUT-MMI 2025 · Maëlie A. 
+    </footer>
   </body>
 </html>
-
-<style>
-  html,
-  body {
-    margin: 0;
-    width: 100%;
-    height: 100%;
-  }
-</style>
