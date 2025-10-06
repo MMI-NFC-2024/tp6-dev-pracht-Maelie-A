@@ -1,0 +1,27 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import PlotFigure from "../../components/PlotFigure.astro";
+import * as Plot from "@observablehq/plot";
+import penguinsRaw from "../../assets/penguins.json";
+
+// Pré-rendu des chemins
+export async function getStaticPaths() {
+  const species = [...new Set(penguinsRaw.map(d => d.species))];
+  return species.map(s => ({
+    params: { species: s },
+    props: { species: s } // passera dans Astro.props
+  }));
+}
+
+const { species } = Astro.props as { species: string };
+const data = tidy(penguinsRaw);
+const rows = data.filter(d => d.species === species);
+const options = makeOptions(rows, `${species} — Scatterplot`);
+---
+
+<Layout title={`TP6 — ${species} (statique)`}>
+  <p class="mb-3">
+    <a href="/rendu-statique" class="px-3 py-1 rounded border">← retour</a>
+  </p>
+  <PlotFigure options={options} />
+</Layout>
