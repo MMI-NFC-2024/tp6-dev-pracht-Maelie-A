@@ -1,0 +1,28 @@
+---
+export const prerender = false;
+
+import Layout from "../../layouts/Layout.astro";
+import PlotFigure from "../../components/PlotFigure.astro";
+import * as Plot from "@observablehq/plot";
+import penguinsRaw from "../../assets/penguins.json";
+
+const { species } = Astro.params; // valeur de l’URL
+const data = tidy(penguinsRaw);
+
+const rows = data.filter(d => d.species === species);
+const notFound = rows.length === 0;
+const options = notFound ? null : makeOptions(rows, `${species} — Scatterplot`);
+---
+
+<Layout title={notFound ? "Espèce inconnue" : `TP6 — ${species}`}>
+  {notFound ? (
+    <p>Espèce inconnue : <code>{species}</code></p>
+  ) : (
+    <>
+      <p class="mb-3">
+        <a href="/rendu-dynamique" class="px-3 py-1 rounded border">← retour</a>
+      </p>
+      <PlotFigure options={options} />
+    </>
+  )}
+</Layout>
